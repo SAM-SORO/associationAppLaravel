@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+
 
 class admin extends Controller
 {
     //
-    public function index(){
-        return view('association.dashboard');
+    public function index()
+    {
+        $user_count = User::count();
+
+        return view('association.dashboard',  [
+            'user_count' => $user_count,
+        ]);
     }
 
 

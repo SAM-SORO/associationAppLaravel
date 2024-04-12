@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom');
+            $table->string('prenom');
+            $table->integer('telphone');
+            $table->string('role');// villeAdmin or groupeAdmin or sectionAdmin
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+
+            $table->unsignedBigInteger('groupe_id')->nullable();
+            // $table->foreign('groupe')->references('id')->on('groupes')->onDelete('cascade');
+
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

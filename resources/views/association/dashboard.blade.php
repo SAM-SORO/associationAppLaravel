@@ -6,7 +6,7 @@
         <a href="#" class="bg-teal-400 rounded-lg row-span-5 col-span-2 flex flex-col justify-center items-center">
             <div class="flex flex-col items-center">
                 <span class="text-8xl mb-2"><i class="fas fa-user"></i></span> <!-- Icône Font Awesome -->
-                <p class="text-center text-2xl">515</p> <!-- Texte à côté de l'icône -->
+                <p class="text-center text-2xl">{{$user_count}}</p> <!-- Texte à côté de l'icône -->
                 <span class="mt-auto text-2xl">Personnes</span> <!-- Texte en bas de l'icône -->
             </div>
         </a>
