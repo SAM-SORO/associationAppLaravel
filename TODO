@@ -1,0 +1,12 @@
+
+
+################# TODO #################
+## Creer des entités membres et user(gerant) - tables
+    # Utiliser la table User en pour etendre les fonctionnalités gerant
+## inclure le fait q'un gerant que seul les user ont un mot de passe
+## Nommer un user consiste à dupliquer les informations d'un membre et lui ajouter les informations de logins
+
+## Un gerant gère un seul groupe
+## Gerer le fait qu'on ait differents types de gerant ou rôle pour un gerant(adminGroupe, AdminVille, amdinSection)
+## 
+

@@ -24,8 +24,9 @@ class admin extends Controller
     }
 
     public function createMember(){
-        return view('association.create');
+        return view('association.registerMembre');
     }
+
 
     public function login(){
         return view('auth.login');

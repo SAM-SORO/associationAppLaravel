@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin;
 use App\Http\Controllers\fonds;
 use App\Http\Controllers\Statistique;
+use App\Http\Controllers\Membre;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [admin::class, 'index'])->name('home');
@@ -19,7 +20,10 @@ Route::prefix('admin/')->group(function(){
 
     Route::get('login/', [admin::class, 'login'])->name('connexion');
 
-    Route::get('register/', [admin::class, 'register'])->name('inscription');
+    Route::post('{id_groupe}/register_membre', [Membre::class, 'create_member'])
+    ->name('association.register_membre');
+
+    Route::get('register_membre/', [admin::class, 'createMember'])->name('association.membre');// to manage later, btn association page
 
 });
 

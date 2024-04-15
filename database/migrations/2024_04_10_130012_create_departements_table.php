@@ -44,6 +44,5 @@ return new class extends Migration
         Schema::dropIfExists('groupes');
         Schema::dropIfExists('sections');
         Schema::dropIfExists('villes');
-
     }
 };
