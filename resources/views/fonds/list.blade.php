@@ -35,7 +35,7 @@
         </form>
 
         <div>
-            <a href="{{route('association.create.fonds')}}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Creer un fond</button></a>
+            <a href="{{route('create-fonds')}}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Creer un fond</button></a>
         </div>
 
     </div>
@@ -59,8 +59,8 @@
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">1000</td>
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">2022-2023</td>
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">
-                                <button class="btn-delete bg-red-700 rounded-sm text-sm p-2 text-white">Supprimer</button>
-                                <button class="btn-edit  bg-green-700 rounded-sm text-sm p-2 text-white">Modifier</button>
+                                <button class="btn-delete focus:outline-none text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm p-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Supprimer</button>
+                                <button class="btn-edit text-md bg-green-500 p-2 text-white rounded-lg  hover:bg-green-600 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Modifier</button>
                             </td>
                         </tr>
                         <tr class="border-b-2 border-gray-100">
@@ -68,8 +68,9 @@
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">500</td>
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">2021-2022</td>
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">
-                                <button class="btn-delete bg-red-700 rounded-sm text-sm p-2 text-white">Supprimer</button>
-                                <button class="btn-edit  bg-green-700 rounded-sm text-sm p-2 text-white">Modifier</button>
+                                <button class="btn-delete focus:outline-none text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm p-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Supprimer</button>
+
+                                <button class="btn-edit text-md bg-green-500 p-2 text-white rounded-lg  hover:bg-green-600 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Modifier</button>
                             </td>
                         </tr>
                         <tr class="border-b-2 border-gray-100">
@@ -77,8 +78,8 @@
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">750</td>
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">2020-2021</td>
                             <td class="text-sm font-medium text-gray-900 px-6 py-6">
-                                <button class="btn-delete bg-red-700 rounded-sm text-sm p-2 text-white">Supprimer</button>
-                                <button class="btn-edit  bg-green-700 rounded-sm text-sm p-2 text-white">Modifier</button>
+                                <button class="btn-delete focus:outline-none text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm p-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Supprimer</button>
+                                <button class="btn-edit text-md bg-green-500 p-2 text-white rounded-lg  hover:bg-green-600 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300">Modifier</button>
                             </td>
                         </tr>
                     </tbody>
