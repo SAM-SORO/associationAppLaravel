@@ -42,6 +42,12 @@ class admin extends Controller
     }
 
 
+    //celui la donne la vue de creation des membres
+    public function ajouterDepartement(){
+        return view('departement.create');
+    }
+
+
     //celui la donne la vue sur les informations d'un responsable
     public function infoResponsable(){
         return view('responsables.info');
@@ -55,6 +61,11 @@ class admin extends Controller
     //celui la donne la vue sur l'inscription
     public function register(){
         return view('auth.register');
+    }
+
+    public function historique(){
+        return view('association.historique');
+
     }
 
 }

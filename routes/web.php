@@ -17,11 +17,19 @@ Route::prefix('admin/')->group(function(){
 
     Route::get('creer-un fond/', [fonds::class, 'create'])->name('create-fonds');
 
+    Route::get('payer-une contisation/', [fonds::class, 'paiement'])->name('payer-cotisation');
+
     //routes pour les statistiques
 
     Route::get('statistiques/', [Statistique::class, 'index'])->name('statistiques');
 
-    //routes pour membres
+    //routes pour l'historiques
+    Route::get('historique/', [admin::class, 'historique'])->name('historique');
+
+
+
+
+    //routes pour membres , pour les departments
 
     Route::get('membre/', [admin::class, 'membres'])->name('membres');
 
@@ -30,6 +38,9 @@ Route::prefix('admin/')->group(function(){
     Route::get('ajouter-membre}', [admin::class, 'ajouerMembre'])->name('add-membre');
 
     Route::get('modifier-membre/{membre}', [admin::class, 'modifierMembre'])->name('edit-membre');
+
+    Route::get('ajouter-departement}', [admin::class, 'ajouterDepartement'])->name('add-departement');
+
 
     //routes pour responsable
 
@@ -46,6 +57,7 @@ Route::prefix('admin/')->group(function(){
     Route::get('login/', [admin::class, 'login'])->name('connexion');
 
     Route::get('recupered-password/', [admin::class, 'passwordForgot'])->name('connexion');
+
 
 
     //Route::get('register/', [admin::class, 'register'])->name('inscription');
