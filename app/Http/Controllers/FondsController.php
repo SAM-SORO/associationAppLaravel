@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class fonds extends Controller
+class FondsController extends Controller
 {
     //
     public function index(){

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Statistique extends Controller
+class StatistiqueController extends Controller
 {
     //
     public function index(){
