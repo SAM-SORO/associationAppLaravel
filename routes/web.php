@@ -67,6 +67,9 @@ Route::prefix('admin/')->group(function(){
 
     // Route::get('creer-un fond/', [fonds::class, 'create'])->name('create-fonds');
 
+    Route::get('creer-un fond/', [fonds::class, 'create'])->name('create-fonds');
+
+    Route::get('payer-une contisation/', [fonds::class, 'paiement'])->name('payer-cotisation');
 
     // //routes pour membres
 
@@ -76,7 +79,10 @@ Route::prefix('admin/')->group(function(){
     // Route::post('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
 
 
-    // Route::get('modifier-membre/{membre}', [admin::class, 'modifierMembre'])->name('edit-membre');
+    Route::get('modifier-membre/{membre}', [admin::class, 'modifierMembre'])->name('edit-membre');
+
+    Route::get('ajouter-departement}', [admin::class, 'ajouterDepartement'])->name('add-departement');
+
 
     // //routes pour responsable
 
@@ -97,6 +103,7 @@ Route::prefix('admin/')->group(function(){
     // //Route::get('register/', [admin::class, 'register'])->name('inscription');
     // Route::post('{id_groupe}/register_membre', [Membre::class, 'create_member'])
     // ->name('association.register_membre');
+
 
     // Route::get('register_membre/', [admin::class, 'createMember'])->name('association.membre');// to manage later, btn association page
 

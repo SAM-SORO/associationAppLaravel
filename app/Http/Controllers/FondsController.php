@@ -14,6 +14,10 @@ class FondsController extends Controller
     public function create(){
         return view('fonds.create');
     }
+
+    public function paiement(){
+        return view('fonds.paiement');
+    }
 }
 
 
