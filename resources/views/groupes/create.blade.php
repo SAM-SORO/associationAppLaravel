@@ -18,7 +18,7 @@
                         <label for="label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Label</label>
                         <input type="text" name="label" id="label" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required="">
                     </div>
-                    <div>
+                    {{-- <div>
                         <label for="responsable" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Responsable</label>
                         <select name="responsable" id="responsable" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="" selected>Choisir un responsable (optionnel)</option>
@@ -26,7 +26,7 @@
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     <div>
                         <label for="section_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
                         <select name="section_id" id="section_id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">

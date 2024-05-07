@@ -7,9 +7,6 @@ use App\Http\Controllers\MembreController;
 use App\Http\Controllers\GroupeController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\VilleController;
-
-
-
 use Illuminate\Support\Facades\Route;
 
 
@@ -44,13 +41,14 @@ Route::prefix('admin/')->group(function(){
     Route::put('/groupes/{id}', [GroupeController::class, 'update'])->name('groupes.update');
     Route::delete('/groupes/{id}', [GroupeController::class, 'destroy'])->name('groupes.destroy');
 
+    //Gestion des membres
+    Route::get('membre/', [AdminController::class, 'membres'])->name('association.index');
 
 
     // Gestion des fonds
     Route::get('fonds/', [FondsController::class, 'index'])->name('fonds');
-
-    // Gestion des fonds
-    Route::get('membre/', [AdminController::class, 'membres'])->name('membres');
+    Route::get('fonds/create', [FondsController::class, 'create'])->name('fonds.create');
+    Route::get('payer/', [FondsController::class, 'paiement'])->name('payer-cotisation');
 
     // Gestion des statistiques
     Route::get('statistiques/', [StatistiqueController::class, 'index'])->name('statistiques');
@@ -62,20 +60,24 @@ Route::prefix('admin/')->group(function(){
     Route::get('register/', [AdminController::class, 'create'])->name('auth.create');
     Route::get('logout', [AdminController::class, 'logout'])->name('auth.logout');
 
+    // Gestion des responsable
+    Route::get('responsable/{departement}/create', [AdminController::class, 'createResponsable'])->name('responsable.create');
+    Route::post('responsable/{departement}/create', [AdminController::class, 'storeResponsable'])->name('responsable.store');
+
+
+
+
 
     //routes pour fonds
 
     // Route::get('creer-un fond/', [fonds::class, 'create'])->name('create-fonds');
 
-    Route::get('creer-un fond/', [fonds::class, 'create'])->name('create-fonds');
-
-    Route::get('payer-une contisation/', [fonds::class, 'paiement'])->name('payer-cotisation');
 
     // //routes pour membres
 
-    // Route::get('info-membre/{membre}', [admin::class, 'infoMembre'])->name('info-membre');
+    Route::get('info-membre/{membre}', [admin::class, 'infoMembre'])->name('info-membre');
 
-    // Route::get('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
+    Route::get('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
     // Route::post('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
 
 

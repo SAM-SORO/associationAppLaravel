@@ -18,25 +18,27 @@ class GroupeController extends Controller
     }
 
     // Enregistre un nouveau groupe dans la base de données
-    public function store(Request $request)
-    {
-        // Validation des données
-        $request->validate([
-            'label' => 'required|string|max:255',
-            'responsable' => 'nullable|exists:users,id',
-            'section_id' => 'nullable|exists:sections,id',
-        ]);
-
-        // Création du groupe
-        $groupe = new Groupe();
-        $groupe->label = $request->label;
-        $groupe->responsable = $request->responsable;
-        $groupe->section_id = $request->section_id;
-        $groupe->save();
-
-        // Redirection avec un message flash
-        return redirect()->route('home')->with('success', 'Le groupe a été créé avec succès !');
-    }
+        // 'responsable' => 'nullable|exists:users,id',
+        public function store(Request $request)
+        {
+            // Validation des données
+            $request->validate([
+                'label' => 'required|string|max:255',
+                'section_id' => 'nullable|exists:sections,id',
+            ]);
+        
+            // Création du groupe
+            $groupe = new Groupe();
+            $groupe->label = $request->label;
+            $groupe->responsable = auth()->user()->id; // Ajout du point-virgule ici
+            $groupe->auteur = auth()->user()->id;
+            $groupe->section_id = $request->section_id;
+            $groupe->save();
+        
+            // Redirection avec un message flash
+            return redirect()->route('home')->with('success', 'Le groupe a été créé avec succès !');
+        }
+        
 
     // Affiche un formulaire pour modifier un groupe existant
     public function edit($id)

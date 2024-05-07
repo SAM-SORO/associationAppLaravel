@@ -8,7 +8,7 @@ class Groupe extends Model
 {
     protected $fillable = [
         'label',
-        'responsable',
+        // 'responsable',
         'section_id',
     ];
 
@@ -23,4 +23,6 @@ class Groupe extends Model
     {
         return $this->belongsTo(Section::class, 'section_id');
     }
+
+    
 }

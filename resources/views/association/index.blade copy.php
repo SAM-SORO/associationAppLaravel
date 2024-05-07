@@ -25,8 +25,6 @@
     </div>
 
     {{-- les filtres de selection --}}
-    @if(auth()->user()->role == "AdminSup")
-    {{-- AdminSup peut tout filtrer --}}
     <div class="flex justify-between items-center flex-col ml-4 space-y-3 lg:flex-row mb-6">
 
         {{-- Villes --}}
@@ -58,47 +56,10 @@
                 <option value="grp3">Groupe 3</option>
             </select>
         </form>
-    </div>
-@elseif(auth()->user()->role =="AdminVille")
-    {{-- AdminVille peut filtrer les sections et les groupes --}}
-    <div class="flex justify-between items-center flex-col ml-4 space-y-3 lg:flex-row mb-6">
-        {{-- Sections --}}
-        <form class="">
-            <select id="sections" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
-                <option selected>Section</option>
-                <option value="sect1">Section 1</option>
-                <option value="sect2">Section 2</option>
-                <option value="sect3">Section 3</option>
-            </select>
-        </form>
 
-         {{-- Groupes --}}
-         <form class="">
-            <select id="groups" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
-                <option selected>Groupe</option>
-                <option value="grp1">Groupe 1</option>
-                <option value="grp2">Groupe 2</option>
-                <option value="grp3">Groupe 3</option>
-            </select>
-        </form>
     </div>
-@elseif(auth()->user()->role =="AdminSection")
-    {{-- AdminSection peut filtrer les groupes --}}
-    <div class="flex justify-between items-center flex-col ml-4 space-y-3 lg:flex-row mb-6">
-         {{-- Groupes --}}
-         <form class="">
-            <select id="groups" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
-                <option selected>Groupe</option>
-                <option value="grp1">Groupe 1</option>
-                <option value="grp2">Groupe 2</option>
-                <option value="grp3">Groupe 3</option>
-            </select>
-        </form>
-    </div>
-@else
-    {{-- AdminGroupe ou autre, n'a pas besoin de filtrage --}}
-    {{-- Ne rien afficher pour les autres rôles --}}
-@endif
+
+
     <div class="flex flex-col lg:flex-row mb-3">
         <div class="flex flex-row gap-8">
 
@@ -174,48 +135,9 @@
             @endphp
 
 
-            {{-- <button type="button" @if($desactiver) disabled @endif class="p-2 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 @if($desactiver) opacity-50 cursor-not-allowed @endif">
+            <button type="button" @if($desactiver) disabled @endif class="p-2 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 @if($desactiver) opacity-50 cursor-not-allowed @endif">
                 Ajouter Responsable
-            </button> --}}
-            
-            {{-- <button type="button" onclick="window.location='{{route('responsable.create')}}'" class="p-2 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 ">
-                Ajouter Responsable
-            </button> --}}
-
-            @if(auth()->user()->role !== 'AdminGroupe')
-            <button id="dropdownHoverButtonAddResponsable" data-dropdown-toggle="dropdownHoverAddResponsable" data-dropdown-trigger="hover" class="flex items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                Ajouter Responsable
-                <svg class="w-2.5 h-2.5 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                </svg>
             </button>
-    
-            <!-- menu deroulant tri-->
-            <div id="dropdownHoverAddResponsable" class="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 top-full mt-1">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButtonAddResponsable">
-                    <!-- Check if the authenticated user has the role of AdminVille -->
-                    @if(auth()->user()->role === 'AdminVille')
-                        <li>
-                            <a href="{{route('responsable.create', ['departement' => 'section'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Section</a>
-                        </li>
-                        <li>
-                            <a href="{{route('responsable.create', ['departement' => 'groupe'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Groupe</a>
-                        </li>
-                    <!-- Check if the authenticated user has the role of AdminSup -->
-                    @elseif(auth()->user()->role === 'AdminSup')
-                        <li>
-                            <a href="{{ route('responsable.create', ['departement' => 'ville']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ville</a>
-                        </li>
-                        <li>
-                            <a href="{{route('responsable.create', ['departement' => 'groupe'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Groupe</a>
-                        </li>
-                        <li>
-                            <a href="{{route('responsable.create', ['departement' => 'section'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Section</a>
-                        </li>
-                    @endif
-                </ul>
-            </div>
-        @endif
 
             <a type="button" href="{{route('add-departement')}}" class="p-2 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ajouter departement</a>
         </div>
@@ -344,6 +266,8 @@
             </tbody>
         </table>
     </div>
+
+
 </div>
 
     <script>

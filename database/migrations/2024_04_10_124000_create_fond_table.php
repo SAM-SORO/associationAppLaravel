@@ -20,23 +20,10 @@ return new class extends Migration
 
         });
 
-        Schema::create('fond_specifique', function (Blueprint $table) {
+        Schema::create('fonds', function (Blueprint $table) {
             $table->id();
             $table->string("label");
-            $table->integer("montant");
-            $table->unsignedBigInteger('auteur')->nullable();
-            $table->foreign('auteur')->references('id')->on('users')->onDelete('cascade');
-
-            $table->unsignedBigInteger('periode')->nullable();
-            $table->foreign('periode')->references('id')->on('periodes')->onDelete('cascade');
-
-            $table->integer("desc");
-            $table->timestamps();
-        });
-
-        Schema::create('fond_general', function (Blueprint $table) {
-            $table->id();
-            $table->string("label");
+            $table->string("departement");
             $table->integer("montant");
             $table->unsignedBigInteger('auteur')->nullable();
             $table->foreign('auteur')->references('id')->on('users')->onDelete('cascade');
@@ -49,11 +36,12 @@ return new class extends Migration
         });
 
         // adherant à un fond
-        Schema::create('fond_membres', function (Blueprint $table) {
+        Schema::create('fonds_membres', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('fond_id'); // general or specifique
-            $table->unsignedBigInteger("membre")->nullable();
-            $table->foreign('membre')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('fonds'); 
+            $table->foreign('fonds')->references('id')->on('fonds')->onDelete('cascade');
+
             $table->timestamps();
         });
 
@@ -62,7 +50,10 @@ return new class extends Migration
             $table->id();
             $table->string("mode");
             $table->integer("montant");
-            $table->unsignedBigInteger('fond_id'); // general or specifique;
+
+            $table->unsignedBigInteger('fonds'); // general or specifique;
+            $table->foreign('fonds')->references('id')->on('fonds')->onDelete('cascade');
+
             $table->unsignedBigInteger("periode")->nullable();
             $table->foreign('periode')->references('id')->on('periodes')->onDelete('cascade');
             $table->timestamps();
@@ -74,8 +65,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fond_general');
-        Schema::dropIfExists('fond_specifique');
+        Schema::dropIfExists('fonds');
         Schema::dropIfExists('fond_membres');
         Schema::dropIfExists('periodes');
         Schema::dropIfExists('payements');

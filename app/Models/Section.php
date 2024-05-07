@@ -8,7 +8,7 @@ class Section extends Model
 {
     protected $fillable = [
         'label',
-        'responsable',
+        // 'responsable',
         'ville_id',
     ];
 

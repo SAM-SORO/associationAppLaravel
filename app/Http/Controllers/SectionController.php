@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Section;
 use App\Models\User;
 use App\Models\Ville;
+use Illuminate\Support\Facades\Auth;
 
 class SectionController extends Controller
 {
@@ -27,15 +28,22 @@ class SectionController extends Controller
     // Enregistre une nouvelle section dans la base de données
     public function store(Request $request)
     {
+        // Validation des données
         $request->validate([
             'label' => 'required|string|max:255',
-            'responsable' => 'nullable|exists:users,id',
-            'ville_id' => 'nullable|exists:villes,id',
+            'section_id' => 'nullable|exists:sections,id',
         ]);
-
-        Section::create($request->all());
-
-        return redirect()->route('home')->with('success', 'La section a été créée avec succès !');
+    
+        // Création du groupe
+        $section = new Section();
+        $section->label = $request->label;
+        $section->responsable = Auth::id(); // Utilisateur actuellement authentifié comme responsable
+        $section->auteur = Auth::id(); // Utilisateur actuellement authentifié comme auteur
+        $section->ville_id = $request->section_id;
+        $section->save();
+    
+        // Redirection avec un message flash
+        return redirect()->route('home')->with('success', 'Le groupe a été créé avec succès !');
     }
 
     // Affiche les détails d'une section spécifique

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ville;
+use Illuminate\Support\Facades\Auth;
+
 
 class VilleController extends Controller
 {
@@ -23,13 +25,19 @@ class VilleController extends Controller
     // Enregistre une nouvelle ville dans la base de données
     public function store(Request $request)
     {
+        // Validation des données
         $request->validate([
             'label' => 'required|string|max:255',
-            'responsable' => 'nullable|exists:users,id',
         ]);
-
-        Ville::create($request->all());
-
+    
+        // Création de la ville
+        $ville = new Ville();
+        $ville->label = $request->label;
+        $ville->auteur = Auth::id();
+        $ville->responsable = Auth::id();  // Utilisateur actuellement authentifié comme auteur
+        $ville->save();
+    
+        // Redirection avec un message flash
         return redirect()->route('home')->with('success', 'La ville a été créée avec succès !');
     }
 

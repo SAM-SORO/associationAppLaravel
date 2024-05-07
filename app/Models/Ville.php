@@ -8,7 +8,7 @@ class Ville extends Model
 {
     protected $fillable = [
         'label',
-        'responsable',
+        // 'responsable',
     ];
 
     // Relation avec l'utilisateur responsable de la ville

@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li id="association">
-                        <a href="{{route('membres')}}" class="flex items-center text-gray-300 hover:text-green-700">
+                        <a href="{{route('association.index')}}" class="flex items-center text-gray-300 hover:text-green-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><defs><mask id="ipTCategoryManagement0"><g fill="none"><rect width="36" height="14" x="6" y="28" stroke="#fff" stroke-width="4" rx="4"/><path stroke="#fff" stroke-linecap="round" stroke-width="4" d="M20 7H10a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h10"/><circle cx="34" cy="14" r="8" fill="#555" stroke="#fff" stroke-width="4"/><circle cx="34" cy="14" r="3" fill="#fff"/></g></mask></defs><path fill="#d2cbcb" d="M0 0h48v48H0z" mask="url(#ipTCategoryManagement0)"/></svg>
                             <span class="links_name ml-2">Mon association</span>
                         </a>
