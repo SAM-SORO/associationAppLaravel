@@ -1,6 +1,8 @@
 @extends('base')
-
+{{$errors}}
 @section('main-contain')
+
+
 
 <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
@@ -13,7 +15,7 @@
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Créer un compte pour responsable
                 </h1>
-                <form class="space-y-4 md:space-y-6" method="POST" action="{{ route('auth.store') }}">
+                <form class="space-y-4 md:space-y-6" method="POST" action="{{ route('auth.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div>
                         <label for="nom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom</label>

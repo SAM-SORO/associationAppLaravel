@@ -10,38 +10,72 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Ville;
 use App\Models\Groupe;
 use App\Models\Section;
-use Illuminate\Support\Facades\Storage;
 
 
 class AdminController extends Controller
 {
 
+    
     // Méthode pour gérer la création de compte
     public function store(Request $request)
     {
         // Validation des données du formulaire de création de compte
-        $request->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'telphone' => 'required|string',
-            'role' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-            // Ajoutez ici d'autres règles de validation pour les autres champs...
-        ]);
+        // $request->validate([
+        //     'nom' => 'required|string',
+        //     'prenom' => 'required|string',
+        //     'telphone' => 'required|string',
+        //     'role' => 'required|string',
+        //     'email' => 'required|email',
+        //     'password' => 'required|min:6',
+        //     // Ajoutez ici d'autres règles de validation pour les autres champs...
+        // ]);
     
         // Création de l'utilisateur
-        $user = new User();
-        $user->nom = $request->nom;
-        $user->prenom = $request->prenom;
-        $user->telphone = $request->telphone;
-        $user->role = $request->role;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
+        $responsable = new User();
+        $responsable->nom = $request->nom;
+        $responsable->prenom = $request->prenom;
+        $responsable->telphone = $request->telphone;
+        $responsable->role = $request->role;
+        $responsable->email = $request->email;
+        $responsable->password = bcrypt($request->password);
 
-        $user->save();
+        // $user->save();
 
-        Auth::login($user);
+        // Auth::login($user);
+        // return redirect()->route('home');
+
+
+        // $validatedData = $request->validate([
+        //     'nom' => 'required|string|max:255',
+        //     'prenom' => 'required|string|max:255',
+        //     'telphone' => 'required|string|max:255',
+        //     'email' => 'required|email|unique:users,email',
+        //     'password' => 'required|string|min:8',
+        //     // 'departement' => 'required',
+        //     'image' => 'image|mimes:jpeg,png,jpg,gif', // Validation pour l'image
+        // ]);
+
+        // Traitement de l'image
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images');
+        }
+
+        // Création d'un nouvel utilisateur responsable
+        // $responsable = new User();
+        // $responsable->nom = $validatedData['nom'];
+        // $responsable->prenom = $validatedData['prenom'];
+        // $responsable->telphone = $validatedData['telphone'];
+        // $responsable->email = $validatedData['email'];
+        // $responsable->password = bcrypt($validatedData['password']);
+
+        // Sauvegarde de l'image si elle a été téléchargée
+        if (isset($imagePath)) {
+            $responsable->img = $imagePath;
+        }
+
+        $responsable->save();
+
+        Auth::login($responsable);
         return redirect()->route('home');
     }
 
@@ -95,10 +129,13 @@ class AdminController extends Controller
 
     }
 
-    //celui la donne la vue sur l'ensemble des membres
-    public function membres(){
-        return view('association.index');
+    public function membres()
+    {
+        $user = Auth::user();
+        $membres = Membre::where('groupe_id', $user->groupe_id)->get();
+        return view('association.index', compact('membres'));
     }
+    
 
     //celui la donne la vue de creation des membres
     public function ajouterMembre(Request $request){
@@ -139,65 +176,21 @@ class AdminController extends Controller
     {
         $departements = [];
         if ($departement === "ville") {
-            $departements = Ville::where('auteur', auth()->id())->get();
-        } elseif ($departement == 'groupe') {
-            $departements = Groupe::where('auteur', auth()->id())->get();
+            $departements = Ville::where('auteur', auth()->id())
+                                 ->whereNull('auteur')
+                                 ->get();
+        } elseif ($departement === 'groupe') {
+            $departements = Groupe::where('auteur', auth()->id())
+                                  ->whereNull('auteur')
+                                  ->get();
         } elseif ($departement === 'section') {
-            $departements = Section::where('auteur', auth()->id())->get();
+            $departements = Section::where('auteur', auth()->id())
+                                   ->whereNull('auteur')
+                                   ->get();
         }
         return view('responsables.create', compact('departement', 'departements'));
     }
-
-
-    // public function storeResponsable(Request $request, $departement)
-    // {
-    //     $validatedData = $request->validate([
-    //         'nom' => 'required|string|max:255',
-    //         'prenom' => 'required|string|max:255',
-    //         'telphone' => 'required|string|max:255',
-    //         'email' => 'required|email|unique:users,email',
-    //         'password' => 'required|string|min:8',
-    //         'departement' => 'required',
-    //     ]);
-
-    //     // Création d'un nouvel utilisateur responsable
-    //     $responsable = new User();
-    //     $responsable->nom = $validatedData['nom'];
-    //     $responsable->prenom = $validatedData['prenom'];
-    //     $responsable->telphone = $validatedData['telphone'];
-    //     $responsable->email = $validatedData['email'];
-    //     $responsable->password = bcrypt($validatedData['password']);
-
-    //     $role = '';
-    //     if ($departement === 'ville') {
-    //         $role = 'AdminVille';
-    //     } elseif ($departement === 'groupe') {
-    //         $role = 'AdminGroupe';
-    //     } elseif ($departement === 'section') {
-    //         $role = 'AdminSection';
-    //     }
-    //     $responsable->role = $role;
-    //     $responsable->save();
-
-
-    //     $departementModel = null;
-    //     if ($departement === 'ville') {
-    //         $departementModel = Ville::find($request->departement);
-    //     } elseif ($departement === 'groupe') {
-    //         $departementModel = Groupe::find($request->departement);
-    //         // Mettre à jour la colonne "groupe" de l'utilisateur
-    //         $responsable->groupe_id = $departementModel->id;
-    //         $responsable->save();
-    //     } elseif ($departement === 'section') {
-    //         $departementModel = Section::find($request->departement);
-    //     }
-
-    //     if ($departementModel) {
-    //         $departementModel->responsable()->associate($responsable);
-    //         $departementModel->save();
-    //     }
-    //     return redirect()->route('association.index', $departement)->with('success', 'Responsable créé avec succès.');
-    // }
+    
 
 
     public function storeResponsable(Request $request, $departement)
@@ -209,7 +202,7 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'departement' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation pour l'image
+            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation pour l'image
         ]);
 
         // Traitement de l'image
@@ -227,7 +220,7 @@ class AdminController extends Controller
 
         // Sauvegarde de l'image si elle a été téléchargée
         if (isset($imagePath)) {
-            $responsable->image = $imagePath;
+            $responsable->img = $imagePath;
         }
 
         $role = '';

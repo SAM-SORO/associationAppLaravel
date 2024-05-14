@@ -20,8 +20,8 @@ class FondsController extends Controller
         // Validation des données
         $request->validate([
             'label' => 'required|string|max:255',
-            'responsable' => 'nullable|exists:users,id',
-            'section_id' => 'nullable|exists:sections,id',
+            // 'responsable' => 'nullable|exists:users,id',
+            // 'section_id' => 'nullable|exists:sections,id',
         ]);
 
         // Création du groupe

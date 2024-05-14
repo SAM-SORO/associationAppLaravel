@@ -15,7 +15,7 @@
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Compte Responsable Pour {{$departement}}
                 </h1>
-                <form class="space-y-4 md:space-y-6" method="POST" action="{{ route('responsable.store', ['departement' => $departement]) }}">
+                <form class="space-y-4 md:space-y-6" method="POST"  enctype="multipart/form-data" action="{{ route('responsable.store', ['departement' => $departement]) }}">
                     @csrf
                     <div>
                         <label for="nom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom</label>

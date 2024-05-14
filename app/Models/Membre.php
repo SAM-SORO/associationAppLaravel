@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Groupe;
 
 class Membre extends Model
 {
@@ -19,6 +20,24 @@ class Membre extends Model
        'nom',
        'prenom',
        'tel',
-       "groupe"
+       "groupe",
+       'date_adhesion',
+       'date_naissance',
+       'image',
    ];
+
+   public function groupe()
+   {
+       return $this->belongsTo(Groupe::class);
+   }
+
+   public function section()
+   {
+       return $this->hasOneThrough(Section::class, Groupe::class);
+   }
+
+//    public function ville()
+//    {
+//        return $this->hasOneThrough(Ville::class, Section::class, 'id', 'id', 'groupe_id', 'ville_id');
+//    }
 }

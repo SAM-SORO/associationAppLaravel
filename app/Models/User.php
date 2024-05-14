@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Groupe;
+
 
 class User extends Authenticatable
 {
@@ -41,5 +43,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public function groupe()
+    {
+        return $this->belongsTo(Groupe::class);
+    }
+
+    public function section()
+    {
+        return $this->hasOneThrough(Section::class, Groupe::class);
+    }
+
+    public function ville()
+    {
+        return $this->hasOneThrough(Ville::class, Section::class, 'id', 'id', 'groupe_id', 'ville_id');
     }
 }

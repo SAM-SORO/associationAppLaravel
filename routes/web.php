@@ -41,15 +41,26 @@ Route::prefix('admin/')->group(function(){
     Route::put('/groupes/{id}', [GroupeController::class, 'update'])->name('groupes.update');
     Route::delete('/groupes/{id}', [GroupeController::class, 'destroy'])->name('groupes.destroy');
 
-    //Gestion des membres
-    Route::get('membre/', [AdminController::class, 'membres'])->name('association.index');
-
+    // Gestion des membres
+    Route::get('membres/actions', [AdminController::class, 'membres'])->name('association.index');
+    Route::get('membre/create', [MembreController::class, 'create'])->name('membre.create');
+    Route::post('/membres', [MembreController::class, 'store'])->name('membre.store');
+    Route::get('/membre/{id}', [MembreController::class, 'show'])->name('membre.show');  // Route pour les détails d'un membre
+    Route::get('/membre/{id}/edit', [MembreController::class, 'edit'])->name('membre.edit');
+    Route::put('/membre/{id}', [MembreController::class, 'update'])->name('membre.update');
+    Route::delete('/membre/{id}/destroy', [MembreController::class, 'destroy'])->name('membre.destroy');
 
     // Gestion des fonds
     Route::get('fonds/', [FondsController::class, 'index'])->name('fonds');
     Route::get('fonds/create', [FondsController::class, 'create'])->name('fonds.create');
     Route::get('payer/', [FondsController::class, 'paiement'])->name('payer-cotisation');
 
+
+
+
+
+
+    
     // Gestion des statistiques
     Route::get('statistiques/', [StatistiqueController::class, 'index'])->name('statistiques');
 
@@ -65,9 +76,6 @@ Route::prefix('admin/')->group(function(){
     Route::post('responsable/{departement}/create', [AdminController::class, 'storeResponsable'])->name('responsable.store');
 
 
-
-
-
     //routes pour fonds
 
     // Route::get('creer-un fond/', [fonds::class, 'create'])->name('create-fonds');
@@ -77,7 +85,6 @@ Route::prefix('admin/')->group(function(){
 
     Route::get('info-membre/{membre}', [admin::class, 'infoMembre'])->name('info-membre');
 
-    Route::get('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
     // Route::post('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
 
 

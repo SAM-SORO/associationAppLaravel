@@ -48,7 +48,7 @@
                 <input type="text" id="fonds-libelle" name="fonds-libelle" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 w-70" required>
             </div>
 
-
+            @if(auth()->user->role !== "AdminGroup")
             <div class="flex flex-col">
                 <label for="departement" class="text-sm font-medium mb-1">Département concerné</label>
                 <select id="departement" name="departement" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" required>

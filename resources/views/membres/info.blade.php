@@ -12,13 +12,13 @@
 
             <div class="flex flex-col justify-center"> <!-- Conteneur flexbox pour centrer verticalement -->
                 <div class="text-left space-y-3">
-                    <p><span class="font-bold">Nom :</span> N'guessan</p>
-                    <p><span class="font-bold">Prenom :</span> Axel</p>
-                    <p><span class="font-bold">N° de téléphone :</span> +225 05 46 82 93 08</p>
-                    <p><span class="font-bold">Departement : </span> Abidjan - yopougnon - </p>
+                    <p><span class="font-bold">Nom :</span>{{$membre->nom}}</p>
+                    <p><span class="font-bold">Prenom :</span> {{$membre->prenom}}</p>
+                    <p><span class="font-bold">N° de téléphone :</span> +225 {{$membre->telphone}}</p>
+                    <p><span class="font-bold">Departement : </span> - {{$membre->groupe->label}}</p>
                     <p><span class="font-bold">Fonction : </span> Membre</p>
-                    <p><span class="font-bold">Age : </span> 20 ans</p>
-                    <p><span class="font-bold">Date d'hadesion : </span> 26/02/2013</p>
+                    <p><span class="font-bold">Age : </span> {{ $age }} ans</p>
+                    <p><span class="font-bold">Date d'hadesion : </span> {{$membre->date_adhesion}}</p>
                 </div>
             </div>
         </div>
