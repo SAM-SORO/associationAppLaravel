@@ -182,7 +182,7 @@
                 Ajouter Responsable
             </button> --}}
 
-            @if(auth()->user()->role !== 'AdminGroupe')
+        @if(auth()->user()->role !== 'AdminGroupe')
             <button id="dropdownHoverButtonAddResponsable" data-dropdown-toggle="dropdownHoverAddResponsable" data-dropdown-trigger="hover" class="flex items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                 Ajouter Responsable
                 <svg class="w-2.5 h-2.5 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -217,6 +217,45 @@
             </div>
             <a type="button" href="{{route('add-departement')}}" class="p-2 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ajouter departement</a>
         @endif
+
+        {{-- ------------------- --}}
+        <button id="dropdownHoverButtonAddFonds" data-dropdown-toggle="dropdownHoverAddFonds" data-dropdown-trigger="hover" class="flex items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+            Creer Un fonds
+            <svg class="w-2.5 h-2.5 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+        </button>
+
+        <div id="dropdownHoverAddFonds" class="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 top-full mt-1">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButtonAddFonds">
+                <!-- Check if the authenticated user has the role of AdminVille -->
+                @if(auth()->user()->role === 'AdminVille')
+                    <li>
+                        <a href="{{route('fonds.create', ['departement' => 'section'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Section</a>
+                    </li>
+                    <li>
+                        <a href="{{route('fonds.create', ['departement' => 'groupe'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Groupe</a>
+                    </li>
+                    <!-- Check if the authenticated user has the role of AdminSup -->
+                    @elseif(auth()->user()->role === 'AdminSup')
+                    <li>
+                        <a href="{{ route('fonds.create', ['departement' => 'ville']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ville</a>
+                    </li>
+                    <li>
+                        <a href="{{route('fonds.create', ['departement' => 'groupe'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Groupe</a>
+                    </li>
+                    <li>
+                        <a href="{{route('fonds.create', ['departement' => 'section'])}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Section</a>
+                    </li>
+
+                    @elseif(auth()->user()->role === 'AdminGroupe')
+                    <li>
+                        <a href="{{ route('fonds.create', ['departement' => 'ville']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Groupe</a>
+                    </li>
+                @endif
+            </ul>
+        </div>
+        {{-- --------------- --}}
 
         </div>
 

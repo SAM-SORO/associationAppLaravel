@@ -7,7 +7,7 @@
 
         <div class="flex gap-10">
             <div>
-                <img class="h-auto max-w-lg mx-auto block rounded-full" src="{{ asset('img/axel.jpg') }}" alt="image description" width="250" height="250">
+                <img class="h-auto max-w-lg mx-auto block rounded-full" src="{{ asset( 'storage/' . $membre->image) }}" alt="image description" width="250" height="250">
             </div>
 
             <div class="flex flex-col justify-center"> <!-- Conteneur flexbox pour centrer verticalement -->

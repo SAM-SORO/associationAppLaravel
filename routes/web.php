@@ -52,7 +52,7 @@ Route::prefix('admin/')->group(function(){
 
     // Gestion des fonds
     Route::get('fonds/', [FondsController::class, 'index'])->name('fonds');
-    Route::get('fonds/create', [FondsController::class, 'create'])->name('fonds.create');
+    Route::get('fonds/{departement}/create', [FondsController::class, 'create'])->name('fonds.create');
     Route::get('payer/', [FondsController::class, 'paiement'])->name('payer-cotisation');
 
 

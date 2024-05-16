@@ -47,15 +47,34 @@
                 <label for="fonds-libelle" class="text-sm font-medium mb-1">Libellé du fonds</label>
                 <input type="text" id="fonds-libelle" name="fonds-libelle" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 w-70" required>
             </div>
-
-            @if(auth()->user->role !== "AdminGroup")
             <div class="flex flex-col">
-                <label for="departement" class="text-sm font-medium mb-1">Département concerné</label>
-                <select id="departement" name="departement" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" required>
-                    <option value="yamoussoukro">Yamoussoukro</option>
-                </select>
+                    @if($departement == "ville")
+                    <label for="departement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir La ville</label>
+                    <select name="departement" id="departement" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="" selected>Choisir la ville</option>
+                        @foreach($departements as $depart)
+                            <option value="{{ $depart->id }}">{{ $depart->label }}</option>
+                        @endforeach
+                    </select>
+                    @elseif($departement == "section")
+                    <label for="departement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir La Section</label>
+                    <select name="departement" id="departement" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="" selected>Choisir la section</option>
+                        @foreach($departements as $depart)
+                            <option value="{{ $depart->id }}">{{ $depart->label }}</option>
+                        @endforeach
+                    </select>
+                    @elseif($departement == "groupe")
+                    <label for="departement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Groupe</label>
+                    <select name="departement" id="departement" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="" selected>Choisir le groupe</option>
+                        @foreach($departements as $depart)
+                            <option value="{{ $depart->id }}">{{ $depart->label }}</option>
+                        @endforeach
+                    </select>
+                    @endif
             </div>
-
+     
             <div class="flex flex-col">
                 <label for="departement" class="text-sm font-medium mb-1">Type de fonds</label>
                 <select id="departement" name="departement" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" required>

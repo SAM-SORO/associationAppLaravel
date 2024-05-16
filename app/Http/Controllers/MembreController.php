@@ -24,7 +24,7 @@ class MembreController extends Controller
             'email' => 'required|email|unique:membres,email',
             'prenom' => 'required|string|max:255',
             'telphone' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'date_adhesion' => 'required|date',
             'date_naissance' => 'required|date',
         ]);
@@ -78,9 +78,11 @@ class MembreController extends Controller
             'nom' => 'required|string|max:255',
             'email' => 'required|email|unique:membres,email,'.$id,
             'prenom' => 'required|string|max:255',
-            'telephone' => 'required|numeric',
+            'telphone' => 'required|numeric',
             'groupe_id' => 'nullable|exists:groupes,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'date_adhesion' => 'required|date',
+            'date_naissance' => 'required|date',
         ]);
     
         // Recherche du membre à mettre à jour
@@ -91,7 +93,9 @@ class MembreController extends Controller
         $membre->email = $request->email;
         $membre->prenom = $request->prenom;
         $membre->telphone = $request->telphone;
-        $membre->groupe_id = Auth::user()->groupe_id;
+        $membre->date_naissance = $request->date_naissance;
+        $membre->date_adhesion = $request->date_adhesion;
+        $membre->groupe_id = Auth::user()->groupe_id; 
     
         // Gestion de l'upload d'image
         if ($request->hasFile('image')) {

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ville;
+use App\Models\Section;
+use App\Models\Groupe;
 
 class FondsController extends Controller
 {
@@ -11,9 +14,9 @@ class FondsController extends Controller
         return view('fonds.list');
     }
 
-    public function create(){
-        return view('fonds.create');
-    }
+    // public function create(){
+    //     return view('fonds.create');
+    // }
 
     public function store(Request $request)
     {
@@ -28,6 +31,26 @@ class FondsController extends Controller
 
         // Redirection avec un message flash
         return redirect()->route('home')->with('success', 'Le groupe a été créé avec succès !');
+    }
+
+
+    public function create($departement)
+    {
+        $departements = [];
+        if ($departement === "ville") {
+            $departements = Ville::where('auteur', auth()->id())
+                                 ->whereNull('auteur')
+                                 ->get();
+        } elseif ($departement === 'groupe') {
+            $departements = Groupe::where('auteur', auth()->id())
+                                  ->whereNull('auteur')
+                                  ->get();
+        } elseif ($departement === 'section') {
+            $departements = Section::where('auteur', auth()->id())
+                                   ->whereNull('auteur')
+                                   ->get();
+        }
+        return view('fonds.create', compact('departement', 'departements'));
     }
 
     public function paiement(){
