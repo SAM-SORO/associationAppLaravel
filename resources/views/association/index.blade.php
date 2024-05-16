@@ -1,7 +1,6 @@
 @extends('base')
 
 @section('main-contain')
-
 <div class="mb-6 flex items-center p-4">
     <button type="button" class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#sidebar-mini" aria-controls="sidebar-mini" aria-label="Toggle navigation">
       <span class="sr-only">Toggle Navigation</span>
@@ -250,13 +249,12 @@
 
                     @elseif(auth()->user()->role === 'AdminGroupe')
                     <li>
-                        <a href="{{ route('fonds.create', ['departement' => 'ville']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Groupe</a>
+                        <a href="{{ route('fonds.create', ['departement' => 'groupe']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Groupe</a>
                     </li>
                 @endif
             </ul>
         </div>
         {{-- --------------- --}}
-
         </div>
 
 

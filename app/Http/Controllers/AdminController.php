@@ -177,15 +177,15 @@ class AdminController extends Controller
         $departements = [];
         if ($departement === "ville") {
             $departements = Ville::where('auteur', auth()->id())
-                                 ->whereNull('auteur')
+                                 ->whereNull('responsable')
                                  ->get();
         } elseif ($departement === 'groupe') {
             $departements = Groupe::where('auteur', auth()->id())
-                                  ->whereNull('auteur')
+                                  ->whereNull('responsable')
                                   ->get();
         } elseif ($departement === 'section') {
             $departements = Section::where('auteur', auth()->id())
-                                   ->whereNull('auteur')
+                                   ->whereNull('responsable')
                                    ->get();
         }
         return view('responsables.create', compact('departement', 'departements'));
@@ -250,7 +250,7 @@ class AdminController extends Controller
             $departementModel->responsable()->associate($responsable);
             $departementModel->save();
         }
-        return redirect()->route('association.index', $departement)->with('success', 'Responsable créé avec succès.');
+        return redirect()->route('association.index', $departement)->with('success', 'Responsable créé avec succès.')->with('success_timeout', now()->addSeconds(1));;
     }
 
 

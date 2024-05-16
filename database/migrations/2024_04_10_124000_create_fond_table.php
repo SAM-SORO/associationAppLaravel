@@ -11,26 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {   
-        Schema::create('periodes', function (Blueprint $table) {
-            $table->id();
-            $table->string("label");
-            $table->timestamps();
-            $table->date("date_deb");
-            $table->date("date_fin");
-
-        });
 
         Schema::create('fonds', function (Blueprint $table) {
             $table->id();
             $table->string("label");
-            $table->string("departement");
+            $table->string("departement_nom");
             $table->integer("montant");
+            $table->unsignedBigInteger('departement_id')->nullable();
             $table->unsignedBigInteger('auteur')->nullable();
             $table->foreign('auteur')->references('id')->on('users')->onDelete('cascade');
-            $table->integer("desc");
+            $table->text("description");
 
-            $table->unsignedBigInteger('periode')->nullable();
-            $table->foreign('periode')->references('id')->on('periodes')->onDelete('cascade');
+            $table->date('debut');
+            $table->date('fin');
 
             $table->timestamps();
         });
@@ -51,11 +44,9 @@ return new class extends Migration
             $table->string("mode");
             $table->integer("montant");
 
-            $table->unsignedBigInteger('fonds'); // general or specifique;
+            $table->unsignedBigInteger('fonds')->nullable();
             $table->foreign('fonds')->references('id')->on('fonds')->onDelete('cascade');
 
-            $table->unsignedBigInteger("periode")->nullable();
-            $table->foreign('periode')->references('id')->on('periodes')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -67,7 +58,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('fonds');
         Schema::dropIfExists('fond_membres');
-        Schema::dropIfExists('periodes');
         Schema::dropIfExists('payements');
 
     }

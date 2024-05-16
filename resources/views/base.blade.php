@@ -95,10 +95,36 @@
         </div>
 
         <div class="contenu flex-1 overflow-y-auto">
+            <div class="relative">
+                @if(session('success') && session('success_timeout') > now())
+                    <div id="successMessage" class="absolute top-0 left-0 w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded" role="alert">
+                        <strong class="font-bold">Succès !</strong>
+                        <span class="block sm:inline">{{ session('success') }}</span>
+                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.354 5.646a.5.5 0 0 0-.708 0L10 9.293 5.354 4.646a.5.5 0 0 0-.708.708L9.293 10l-4.647 4.646a.5.5 0 1 0 .708.708L10 10.707l4.646 4.647a.5.5 0 0 0 .708-.708L10.707 10l4.647-4.646a.5.5 0 0 0 0-.708z"/></svg>
+                        </span>
+                    </div>
+                @endif
+            
+                <!-- Votre contenu ici -->
+            </div>
+            
+            
             @yield('main-contain')
         </div>
     </main>
     {{-- datapicker js --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                setTimeout(function() {
+                    successMessage.classList.add('hidden');
+                }, 3000); // Changez 3000 par la durée en millisecondes avant que le message ne disparaisse (par exemple, 1000 pour une seconde)
+            }
+        });
+    </script>
+    
 </body>
 </html>
