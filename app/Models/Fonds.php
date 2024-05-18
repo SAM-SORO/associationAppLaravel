@@ -24,4 +24,9 @@ class Fonds extends Model
     {
         return $this->belongsTo(User::class, 'auteur');
     }
+
+    public function paiements()
+    {
+        return $this->hasMany(Paiement::class);
+    }
 }

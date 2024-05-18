@@ -24,5 +24,10 @@ class Groupe extends Model
         return $this->belongsTo(Section::class, 'section_id');
     }
 
+    public function auteur()
+    {
+        return $this->belongsTo(User::class, 'auteur');
+    }
+
     
 }

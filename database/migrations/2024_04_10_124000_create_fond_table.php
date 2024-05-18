@@ -28,25 +28,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // adherant à un fond
-        Schema::create('fonds_membres', function (Blueprint $table) {
+        Schema::create('paiements', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('fonds'); 
-            $table->foreign('fonds')->references('id')->on('fonds')->onDelete('cascade');
-
-            $table->timestamps();
-        });
-
-
-        Schema::create('payements', function (Blueprint $table) {
-            $table->id();
-            $table->string("mode");
-            $table->integer("montant");
-
-            $table->unsignedBigInteger('fonds')->nullable();
-            $table->foreign('fonds')->references('id')->on('fonds')->onDelete('cascade');
-
+            $table->foreignId('fonds')->constrained('fonds')->onDelete('cascade');
+            $table->decimal('montant', 8, 2);
+            $table->timestamp('date_paiement')->useCurrent();
+            $table->text('mode')->nullable();
             $table->timestamps();
         });
     }
@@ -57,8 +44,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('fonds');
-        Schema::dropIfExists('fond_membres');
-        Schema::dropIfExists('payements');
+        Schema::dropIfExists('paiements');
 
     }
 };

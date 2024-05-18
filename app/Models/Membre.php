@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Groupe;
+use App\Models\Paiement;
 
 class Membre extends Model
 {
@@ -40,4 +41,9 @@ class Membre extends Model
 //    {
 //        return $this->hasOneThrough(Ville::class, Section::class, 'id', 'id', 'groupe_id', 'ville_id');
 //    }
+
+    public function paiements()
+    {
+        return $this->hasMany(Paiement::class);
+    }
 }

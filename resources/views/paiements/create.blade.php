@@ -15,25 +15,21 @@
 <div class="flex justify-center align-center px-12 max-w-3xl">
     <div class="container justify-center align-center px-4 py-8">
         <h1 class="text-2xl font-bold mb-6 text-blue-800">Paiement d'un Fond</h1>
-        <form class="flex flex-col space-y-4">
-
+        <form class="flex flex-col space-y-4" method="POST" action="{{route('paiements.store',['membreId'=>$membre->id])}}">
+            @csrf
             <div class="flex flex-col">
-                <label for="Fond" class="text-sm font-medium mb-1">Fond</label>
-                <select id="Fond" name="Fond" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" required>
-                    <option value="Fond">Fond</option>
+                <label for="fonds" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fonds</label>
+                <select name="fonds" id="fonds" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" selected>Choisir le fonds</option>
+                    @foreach($fonds as $fonds)
+                        <option value="{{ $fonds->id }}">{{ $fonds->label }}</option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="flex flex-col">
-                <label for="Membre" class="text-sm font-medium mb-1">Membre</label>
-                <select id="Membre" name="Membre" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" required>
-                    <option value="BISKOTY">Membre</option>
-                </select>
-            </div>
-
-            <div class="flex flex-col">
-                <label for="Somme payer" class="text-sm font-medium mb-1">Somme payer</label>
-                <input type="text" id="Somme payer" name="Somme payer" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 w-70" required>
+                <label for="montant" class="text-sm font-medium mb-1">Somme payer</label>
+                <input type="number" id="montant" name="montant" class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 w-70" required>
             </div>
 
             <div>

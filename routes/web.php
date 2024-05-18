@@ -8,6 +8,7 @@ use App\Http\Controllers\GroupeController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaiementController;
 
 
 //route vers le dashbord
@@ -51,11 +52,17 @@ Route::prefix('admin/')->group(function(){
     Route::delete('/membre/{id}/destroy', [MembreController::class, 'destroy'])->name('membre.destroy');
 
     // Gestion des fonds
-    Route::get('fonds/', [FondsController::class, 'index'])->name('fonds');
+    Route::get('fonds/', [FondsController::class, 'index'])->name('fonds.index');
     Route::get('fonds/{departement}/create', [FondsController::class, 'create'])->name('fonds.create');
     Route::post('fonds/{departement}/create', [FondsController::class, 'store'])->name('fonds.store');
+    Route::get('fonds/{id}/edit', [FondsController::class, 'edit'])->name('fonds.edit');
+    Route::put('fonds/{id}', [FondsController::class, 'update'])->name('fonds.update');
+    Route::delete('fonds/{id}', [FondsController::class, 'destroy'])->name('fonds.destroy');
 
-    Route::get('payer/', [FondsController::class, 'paiement'])->name('payer-cotisation');
+    // gestion des payements
+    Route::get('paiements', [PaiementController::class, 'index'])->name('paiements.index');
+    Route::get('paiements/{membreId}/create', [PaiementController::class, 'create'])->name('paiements.create');
+    Route::post('paiements/{membreId}/create', [PaiementController::class, 'store'])->name('paiements.store');
 
 
 

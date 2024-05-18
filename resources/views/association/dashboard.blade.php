@@ -28,7 +28,15 @@
             <span class="text-7xl"><i class="fas fa-piggy-bank "></i></span> <!-- Icône Font Awesome -->
             <p class="text-center text-lg mt-auto">Solde total</p>
         </div>
-    </a>
+    </a> 
+
+        <!-- Grid 4 -->
+        <a href="{{route('paiements.index')}}" class="bg-teal-400 rounded-lg row-span-4 p-4 flex flex-col justify-center items-center">
+            <div class="flex flex-col items-center">
+                <span class="text-7xl"><i class="fas fa-piggy-bank "></i></span> <!-- Icône Font Awesome -->
+                <p class="text-center text-lg mt-auto">Paiements</p>
+            </div>
+        </a> 
         @if(auth()->user()->role != 'AdminGroupe')
         <a href="{{route('groupes.create')}}" class="bg-teal-400 rounded-lg row-span-4 p-4 flex flex-col justify-center items-center">
             <div class="flex flex-col items-center">
