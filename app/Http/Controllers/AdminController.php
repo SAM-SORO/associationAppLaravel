@@ -177,15 +177,15 @@ class AdminController extends Controller
         $departements = [];
         if ($departement === "ville") {
             $departements = Ville::where('auteur', auth()->id())
-                                 ->whereNull('responsable')
+                                 ->where('responsable', auth()->id())
                                  ->get();
         } elseif ($departement === 'groupe') {
             $departements = Groupe::where('auteur', auth()->id())
-                                  ->whereNull('responsable')
+                                  ->where('responsable', auth()->id())
                                   ->get();
         } elseif ($departement === 'section') {
             $departements = Section::where('auteur', auth()->id())
-                                   ->whereNull('responsable')
+                                   ->where('responsable', auth()->id())
                                    ->get();
         }
         return view('responsables.create', compact('departement', 'departements'));
@@ -249,8 +249,11 @@ class AdminController extends Controller
         if ($departementModel) {
             $departementModel->responsable()->associate($responsable);
             $departementModel->save();
+            // return redirect()->route('association.index', $departement)
+            //                 ->with('error', 'Un responsable existe déjà pour ce departement')
+            //                 ->with('error_timeout', now()->addSeconds(1));
         }
-        return redirect()->route('association.index', $departement)->with('success', 'Responsable créé avec succès.')->with('success_timeout', now()->addSeconds(1));;
+        return redirect()->route('association.index', $departement)->with('success', 'Responsable créé avec succès.')->with('success_timeout', now()->addSeconds(1));
     }
 
 

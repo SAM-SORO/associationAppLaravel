@@ -21,8 +21,9 @@ class SectionController extends Controller
     public function create()
     {
         $users = User::all();
-        $villes = Ville::all();
-        return view('sections.create', compact('users', 'villes'));
+        $villes = Ville::where("auteur", Auth::user()->id)
+                       ->orwhere("responsable", Auth::user()->id)->get();
+        return view('sections.create', compact('villes'));
     }
 
     // Enregistre une nouvelle section dans la base de données

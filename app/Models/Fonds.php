@@ -16,7 +16,8 @@ class Fonds extends Model
         'debut',
         'fin',
         'auteur',
-        'desc'
+        'desc',
+        "id",
     ];
 
     // Définir les relations si nécessaire

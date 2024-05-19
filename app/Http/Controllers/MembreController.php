@@ -5,6 +5,11 @@ use App\Models\Membre; // Assurez-vous d'importer le modèle Membre si ce n'est 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Fonds;
+use App\Models\Paiement;
+use App\Models\Groupe;
+use App\Models\Ville;
+use App\Models\Section;
 
 
 
@@ -46,9 +51,9 @@ class MembreController extends Controller
         }
     
         $membre->save();
-    
-        // Redirection avec un message flash
-        return redirect()->route('home')->with('success', 'Le membre a été créé avec succès !');
+        return redirect()->route('association.index')
+        ->with('success', 'Le membre a été créé avec succès !')
+        ->with('success_timeout', now()->addSeconds(1));
     }
 
 
@@ -58,9 +63,24 @@ class MembreController extends Controller
         $membre = Membre::findOrFail($id);
         $age = Carbon::parse($membre->date_naissance)->age;
 
-        // Retourne la vue avec les détails du membre
-        return view('membres.info', compact('membre', 'age'));
+        // Récupère les fonds pour le formulaire de sélection
+        $user = Auth::user();
+        $groupe = Groupe::find($user->groupe_id);
+        $section = Section::find($groupe->section_id);
+        $ville = Ville::find($section->ville_id);
+
+        $fonds = Fonds::where('auteur', $user->id)
+                        ->orWhere('auteur', $section->auteur)
+                        ->orWhere('auteur', $ville->auteur)
+                        ->get();
+
+        // Retourne la vue avec les détails du membre et les fonds disponibles
+        return view('membres.info', compact('membre', 'age', 'fonds'));
     }
+
+
+
+
 
     public function edit($id)
     {

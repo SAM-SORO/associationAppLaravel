@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Groupe;
 use App\Models\User;
 use App\Models\Section;
+use Illuminate\Support\Facades\Auth;
+
 
 class GroupeController extends Controller
 {
@@ -13,7 +15,8 @@ class GroupeController extends Controller
     public function create()
     {
         $users = User::all();
-        $sections = Section::all();
+        $sections = Section::where("auteur", Auth::user()->id)
+                            ->orWhere("responsable", Auth::user()->id)->get();
         return view('groupes.create', compact('users', 'sections'));
     }
 
@@ -36,7 +39,9 @@ class GroupeController extends Controller
             $groupe->save();
         
             // Redirection avec un message flash
-            return redirect()->route('home')->with('success', 'Le groupe a été créé avec succès !');
+            return redirect()->route('home')
+                            ->with('success', 'Le groupe a été créé avec succès !')
+                            ->with('success_time_out', now()->addSeconds(1));
         }
         
 

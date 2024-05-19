@@ -31,7 +31,7 @@ return new class extends Migration
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fonds')->constrained('fonds')->onDelete('cascade');
-            $table->decimal('montant', 8, 2);
+            $table->integer('montant', 8, 2);
             $table->timestamp('date_paiement')->useCurrent();
             $table->text('mode')->nullable();
             $table->timestamps();

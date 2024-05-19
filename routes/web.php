@@ -63,11 +63,7 @@ Route::prefix('admin/')->group(function(){
     Route::get('paiements', [PaiementController::class, 'index'])->name('paiements.index');
     Route::get('paiements/{membreId}/create', [PaiementController::class, 'create'])->name('paiements.create');
     Route::post('paiements/{membreId}/create', [PaiementController::class, 'store'])->name('paiements.store');
-
-
-
-
-
+    Route::get('paiements/{membre}/fonds/{fonds}', [PaiementController::class, 'showPaiementsMember'])->name('paiements.showPaiementsMember');
 
     
     // Gestion des statistiques
@@ -92,14 +88,14 @@ Route::prefix('admin/')->group(function(){
 
     // //routes pour membres
 
-    Route::get('info-membre/{membre}', [admin::class, 'infoMembre'])->name('info-membre');
+    // Route::get('info-membre/{membre}', [admin::class, 'infoMembre'])->name('info-membre');
 
-    // Route::post('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
+    // // Route::post('ajouter-membre', [admin::class, 'ajouterMembre'])->name('add-membre');
 
 
-    Route::get('modifier-membre/{membre}', [admin::class, 'modifierMembre'])->name('edit-membre');
+    // Route::get('modifier-membre/{membre}', [admin::class, 'modifierMembre'])->name('edit-membre');
 
-    Route::get('ajouter-departement}', [admin::class, 'ajouterDepartement'])->name('add-departement');
+    // Route::get('ajouter-departement}', [admin::class, 'ajouterDepartement'])->name('add-departement');
 
 
     // //routes pour responsable
