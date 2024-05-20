@@ -336,9 +336,9 @@
 
     document.addEventListener('DOMContentLoaded', function() {
     function performSearch() {
-        var ville = document.getElementById('countries').value;
-        var section = document.getElementById('sections').value;
-        var groupe = document.getElementById('groups').value;
+        var ville = document.getElementById('countries');
+        var section = document.getElementById('sections');
+        var groupe = document.getElementById('groups');
 
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -401,13 +401,35 @@
             }
         };
 
-        xhr.open('GET', '{{ route('search') }}?ville=' + ville + '&section=' + section + '&groupe=' + groupe, true);
-        xhr.send();
-    }
+        if(ville){
+            xhr.open('GET', '{{ route('search') }}?ville=1' + ville.value + '&section=' + section.value + '&groupe=' + groupe.value, true);
+            console.log("heloooooooooooooooooVille"+ville.value);
+        }else if(section){
+            xhr.open('GET', '{{ route('search') }}?section=' + section.value + '&groupe=' + groupe.value, true);
+            console.log("heloooooooooooooooooSection"+section.value);
 
-    document.getElementById('countries').addEventListener('change', performSearch);
-    document.getElementById('sections').addEventListener('change', performSearch);
-    document.getElementById('groups').addEventListener('change', performSearch);
+        }else if(groupe){
+            xhr.open('GET', '{{ route('search') }}?groupe=' + groupe.value, true);
+            console.log("heloooooooooooooooooGroupe"+groupe.value);
+        }
+        xhr.send();
+    };
+    var countries = document.getElementById('countries');
+    var sections = document.getElementById('sections');
+    var groups = document.getElementById('groups');
+
+    if (countries) {
+        countries.addEventListener('change', performSearch);
+        sections.addEventListener('change', performSearch);
+        groups.addEventListener('change', performSearch);
+    }
+    if (sections) {
+        sections.addEventListener('change', performSearch);
+        groups.addEventListener('change', performSearch);
+    }
+    if (groups) {
+        groups.addEventListener('change', performSearch);
+    }
 });
 
 
