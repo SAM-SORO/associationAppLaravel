@@ -37,13 +37,15 @@ class Membre extends Model
        return $this->hasOneThrough(Section::class, Groupe::class);
    }
 
-//    public function ville()
-//    {
-//        return $this->hasOneThrough(Ville::class, Section::class, 'id', 'id', 'groupe_id', 'ville_id');
-//    }
+   public function ville()
+   {
+       return $this->hasOneThrough(Ville::class, Section::class, 'id', 'id', 'groupe_id', 'ville_id');
+   }
 
     public function paiements()
     {
         return $this->hasMany(Paiement::class);
     }
+
+    
 }

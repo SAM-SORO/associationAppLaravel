@@ -9,6 +9,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\SearchController;
 
 
 //route vers le dashbord
@@ -46,7 +47,7 @@ Route::prefix('admin/')->group(function(){
     Route::get('membres/actions', [AdminController::class, 'membres'])->name('association.index');
     Route::get('membre/create', [MembreController::class, 'create'])->name('membre.create');
     Route::post('/membres', [MembreController::class, 'store'])->name('membre.store');
-    Route::get('/membre/{id}', [MembreController::class, 'show'])->name('membre.show');  // Route pour les détails d'un membre
+    Route::get('/membre/{id}', [MembreController::class, 'show'])->name('membre.show');  
     Route::get('/membre/{id}/edit', [MembreController::class, 'edit'])->name('membre.edit');
     Route::put('/membre/{id}', [MembreController::class, 'update'])->name('membre.update');
     Route::delete('/membre/{id}/destroy', [MembreController::class, 'destroy'])->name('membre.destroy');
@@ -79,6 +80,10 @@ Route::prefix('admin/')->group(function(){
     // Gestion des responsable
     Route::get('responsable/{departement}/create', [AdminController::class, 'createResponsable'])->name('responsable.create');
     Route::post('responsable/{departement}/create', [AdminController::class, 'storeResponsable'])->name('responsable.store');
+
+
+    Route::get('search/', [SearchController::class, 'search'])->name('search');
+
 
 
     //routes pour fonds

@@ -133,7 +133,21 @@ class AdminController extends Controller
     {
         $user = Auth::user();
         $membres = Membre::where('groupe_id', $user->groupe_id)->get();
-        return view('association.index', compact('membres'));
+
+
+            $villes= Ville::where('auteur', auth()->id())
+                                 ->orwhere('responsable', auth()->id())
+                                 ->get();
+
+            $groupes = Groupe::where('auteur', auth()->id())
+                                  ->orwhere('responsable', auth()->id())
+                                  ->get();
+     
+            $sections = Section::where('auteur', auth()->id())
+                                   ->orwhere('responsable', auth()->id())
+                                   ->get();
+
+        return view('association.index', compact('membres', 'villes', 'groupes', 'sections'));
     }
     
 
@@ -249,11 +263,10 @@ class AdminController extends Controller
         if ($departementModel) {
             $departementModel->responsable()->associate($responsable);
             $departementModel->save();
-            // return redirect()->route('association.index', $departement)
-            //                 ->with('error', 'Un responsable existe déjà pour ce departement')
-            //                 ->with('error_timeout', now()->addSeconds(1));
         }
-        return redirect()->route('association.index', $departement)->with('success', 'Responsable créé avec succès.')->with('success_timeout', now()->addSeconds(1));
+        return redirect()->route('association.index', $departement)
+        ->with('success', 'Responsable créé avec succès.')
+        ->with('success_timeout', now()->addSeconds(1));
     }
 
 
