@@ -16,8 +16,8 @@
                 <div class="text-left space-y-3">
                     <p><span class="font-bold">Nom :</span> {{ $membre->nom }}</p>
                     <p><span class="font-bold">Prenom :</span> {{ $membre->prenom }}</p>
-                    <p><span class="font-bold">N° de téléphone :</span> +225 {{ $membre->telphone }}</p>
-                    <p><span class="font-bold">Departement :</span> - {{ $membre->groupe->label }}</p>
+                    <p><span class="font-bold">N° de téléphone :</span>+225 {{ $membre->telphone }}</p>
+                    <p><span class="font-bold">Departement :</span> {{ $membre->groupe->section->ville->label}} - {{ $membre->groupe->section->label}} - {{ $membre->groupe->label}}</p>
                     <p><span class="font-bold">Fonction :</span> Membre</p>
                     <p><span class="font-bold">Age :</span> {{ $age }} ans</p>
                     <p><span class="font-bold">Date d'adhesion :</span> {{ $membre->date_adhesion }}</p>

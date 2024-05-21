@@ -21,7 +21,7 @@ class Groupe extends Model
     // Relation avec la section du groupe
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Section::class, 'section_id');
     }
 
     public function auteur()

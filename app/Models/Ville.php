@@ -22,4 +22,9 @@ class Ville extends Model
     {
         return $this->hasMany(Section::class);
     }
+
+    public function groupes()
+    {
+        return $this->hasManyThrough(Ville::class, Section::class, 'id', 'id', 'section_id', 'ville_id');
+    }
 }

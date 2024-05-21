@@ -21,7 +21,7 @@ class Membre extends Model
        'nom',
        'prenom',
        'tel',
-       "groupe",
+       "groupe_id",
        'date_adhesion',
        'date_naissance',
        'image',
@@ -29,17 +29,17 @@ class Membre extends Model
 
    public function groupe()
    {
-       return $this->belongsTo(Groupe::class);
+       return $this->belongsTo(Groupe::class, "groupe_id");
    }
 
    public function section()
    {
-       return $this->hasOneThrough(Section::class, Groupe::class);
+       return $this->hasOneThrough(Section::class, Groupe::class, 'id', 'id', 'groupe_id', 'section_id');
    }
 
    public function ville()
    {
-       return $this->hasOneThrough(Ville::class, Section::class, 'id', 'id', 'groupe_id', 'ville_id');
+       return $this->hasOneThrough(Ville::class, Section::class);
    }
 
     public function paiements()

@@ -132,21 +132,41 @@ class AdminController extends Controller
     public function membres()
     {
         $user = Auth::user();
-        $membres = Membre::where('groupe_id', $user->groupe_id)->get();
+        if($user->role=="AdminVille"){
+            $membres = Membre::whereHas('groupe.section.ville', function($query) use ($user) {
+                $query->where('responsable', $user->id)
+                      ->orWhere('auteur', $user->id);
+            })->get();
+        }elseif($user->role=="AdminSection") {
+            $membres = Membre::whereHas('groupe.section', function($query) use ($user) {
+                $query->where('responsable', $user->id)
+                      ->orWhere('auteur', $user->id);
+            })->get();            
+        } elseif($user->role=="AdminGroupe") {
+            $membres = Membre::where('groupe_id', $user->groupe_id)->get();
+            
+        }else{
+            $membres = Membre::all();
+        }
+        // $membres = Membre::where('groupe_id', $user->groupe_id)->get();
 
 
-            $villes= Ville::where('auteur', auth()->id())
+
+        $villes= Ville::where('auteur', auth()->id())
                                  ->orwhere('responsable', auth()->id())
                                  ->get();
 
-            $groupes = Groupe::where('auteur', auth()->id())
+        if($user->role=="AdminVille"){
+            
+        }
+
+        $groupes = Groupe::where('auteur', auth()->id())
                                   ->orwhere('responsable', auth()->id())
                                   ->get();
      
-            $sections = Section::where('auteur', auth()->id())
+        $sections = Section::where('auteur', auth()->id())
                                    ->orwhere('responsable', auth()->id())
                                    ->get();
-
         return view('association.index', compact('membres', 'villes', 'groupes', 'sections'));
     }
     
