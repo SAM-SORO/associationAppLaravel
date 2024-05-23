@@ -53,7 +53,7 @@
             <select id="groups" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
                 <option selected>Groupe</option>
                 @forEach($groupes as $groupe)
-                <option value="{{$groupe->id}}">{{$groupe->label}}</option>
+                <option value="{{$groupe->id}}">{{$groupe->section->ville->label}}-{{$groupe->section->label}}</option>
                 @endforeach
             </select>
         </form>
@@ -63,8 +63,8 @@
     <div class="flex justify-between items-center flex-col ml-4 space-y-3 lg:flex-row mb-6">
         {{-- Sections --}}
         <form class="">
-            <select id="sections" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
-                <option selected>Section</option>
+            <select id="sections"   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
+                <option value="">Section</option>
                 @forEach($sections as $section)
                 <option value="{{$section->id}}">{{$section->label}}</option>
                 @endforeach
@@ -74,9 +74,9 @@
          {{-- Groupes --}}
          <form class="">
             <select id="groups" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
-                <option selected>Groupe</option>
+                <option value="">Groupe</option>
                 @forEach($groupes as $groupe)
-                <option value="{{$groupe->id}}">{{$groupe->label}}</option>
+                <option value="{{$groupe->id}}">{{$groupe->section->ville->label}}->{{$groupe->section->label}}->{{$groupe->label}}</option>
                 @endforeach
             </select>
         </form>
@@ -86,10 +86,10 @@
     <div class="flex justify-between items-center flex-col ml-4 space-y-3 lg:flex-row mb-6">
          {{-- Groupes --}}
          <form class="">
-            <select id="groups" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
+            <select id="groups"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-80">
                 <option selected>Groupe</option>
                 @forEach($groupes as $groupe)
-                <option value="{{$groupe->id}}">{{$groupe->label}}</option>
+                <option value="{{$groupe->id}}">{{$groupe->section->ville->label}}->{{$groupe->section->label}}->{{$groupe->label}}</option>
                 @endforeach
             </select>
         </form>
@@ -335,102 +335,160 @@
     <script>
 
     document.addEventListener('DOMContentLoaded', function() {
-    function performSearch() {
-        var ville = document.getElementById('countries');
-        var section = document.getElementById('sections');
-        var groupe = document.getElementById('groups');
+        //  Pour un item
+        function membreItem(membre){
+        resultsContainer.innerHTML += '<tr class="bg-white dark:bg-gray-800">' +
+            '<td class="px-12 py-4 border">' + membre.nom + '</td>' +
+            '<td class="px-12 py-4 border">' + membre.prenom + '</td>' +
+            '<td class="px-12 py-4 border">' + membre.telphone + '</td>' +
+            '<td class="px-6 py-4 border text-gray-900 ">' +
+                '<div class="flex justify-center items-center gap-5">' +
+                    '<a href="' + route('membre.show', { id: membre.id }) + '">' +
+                        '<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">' +
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">' +
+                                '<path d="M12 9a3.02 3.02 0 0 0-3 3c0 1.642 1.358 3 3 3 1.641 0 3-1.358 3-3 0-1.641-1.359-3-3-3z"></path>' +
+                                '<path d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 12c-5.351 0-7.424-3.846-7.926-5C4.578 10.842 6.652 7 12 7c5.351 0 7.424 3.846 7.926 5-.504 1.158-2.578 5-7.926 5z"></path>' +
+                            '</svg>' +
+                        '</button>' +
+                    '</a>' +
+                    '<form action="' + route('membre.destroy', { id: membre.id }) + '" method="POST">' +
+                        '@csrf' +
+                        '@method("DELETE")' +
+                        '<button type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">' +
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">' +
+                                '<path fill="white" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z"/>' +
+                            '</svg>' +
+                        '</button>' +
+                    '</form>' +
+                    '<button type="button" onclick="window.location.href=\'' + route('membre.edit', { id: membre.id }) + '\'" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">' +
+                            '<g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">' +
+                                '<path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621"/>' +
+                                '<path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3"/>' +
+                            '</g>' +
+                        '</svg>' +
+                    '</button>' +
+                    '@if(auth()->user()->role == "AdminGroupe")' +
+                    '<a href="' + route('paiements.create', { membreId: membre.id }) + '" type="button" class="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 me-2 mb-2">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 14 14">' +
+                            '<path fill="white" fill-rule="evenodd" d="M1.5 0A1.5 1.5 0 0 0 0 1.5v6A1.5 1.5 0 0 0 1.5 9h11A1.5 1.5 0 0 0 14 7.5v-6A1.5 1.5 0 0 0 12.5 0zm6.125 1.454a.625.625 0 1 0-1.25 0v.4a1.532 1.532 0 0 0-.15 3.018l1.197.261a.39.39 0 0 1-.084.773h-.676a.39.39 0 0 1-.369-.26a.625.625 0 0 0-1.178.416c.194.55.673.965 1.26 1.069v.415a.625.625 0 1 0 1.25 0V7.13a1.641 1.641 0 0 0 .064-3.219L6.492 3.65a.281.281 0 0 1 .06-.556h.786a.388.388 0 0 1 .369.26a.625.625 0 1 0 1.178-.416a1.64 1.64 0 0 0-1.26-1.069zM2.75 3.75a.75.75 0 1 1 0 1.5a.75.75 0 0 1 0-1.5m8.5 0a.75.75 0 1 1 0 1.5a.75.75 0 0 1 0-1.5M4.5 9.875c.345 0 .625.28.625.625v2a.625.625 0 1 1-1.25 0v-2c0-.345.28-.625.625-.625m5.625.625a.625.625 0 1 0-1.25 0v2a.625.625 0 1 0 1.25 0zm-2.5.75a.625.625 0 1 0-1.25 0v2a.625.625 0 1 0 1.25 0z" clip-rule="evenodd"/>' +
+                        '</svg>' +
+                    '</a>' +
+                    '@endif' +
+                '</div>' +
+            '</td>' +
+        '</tr>';
+    };
 
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    var resultsContainer = document.getElementById('results');
-                    resultsContainer.innerHTML = '';
+        var countries = document.getElementById('countries');
+        var sections = document.getElementById('sections');
+        var groupes = document.getElementById('groups');
 
-                    if (response.length === 0) {
-                        resultsContainer.innerHTML = '<p>Aucun résultat trouvé</p>';
+        var searchInput = document.getElementById('table-search');
+        var resultsContainer = document.getElementById('results');
+
+        function performFilter() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        resultsContainer.innerHTML = '';
+                        if (response.length === 0) {
+                            resultsContainer.innerHTML = '<p>Aucun résultat trouvé</p>';
+                        } else {
+                            response.forEach(membreItem);
+                        }
                     } else {
-                        response.forEach(function(membre) {
-                            resultsContainer.innerHTML += '<tr class="bg-white dark:bg-gray-800">' +
-                                '<td class="px-12 py-4 border">' + membre.nom + '</td>' +
-                                '<td class="px-12 py-4 border">' + membre.prenom + '</td>' +
-                                '<td class="px-12 py-4 border">' + membre.telphone + '</td>' +
-                                '<td class="px-6 py-4 border text-gray-900 ">' +
-                                    '<div class="flex justify-center items-center gap-5">' +
-                                        '<a href="' + route('membre.show', { id: membre.id }) + '">' +
-                                            '<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">' +
-                                                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">' +
-                                                    '<path d="M12 9a3.02 3.02 0 0 0-3 3c0 1.642 1.358 3 3 3 1.641 0 3-1.358 3-3 0-1.641-1.359-3-3-3z"></path>' +
-                                                    '<path d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 12c-5.351 0-7.424-3.846-7.926-5C4.578 10.842 6.652 7 12 7c5.351 0 7.424 3.846 7.926 5-.504 1.158-2.578 5-7.926 5z"></path>' +
-                                                '</svg>' +
-                                            '</button>' +
-                                        '</a>' +
-                                        '<form action="' + route('membre.destroy', { id: membre.id }) + '" method="POST">' +
-                                            '@csrf' +
-                                            '@method("DELETE")' +
-                                            '<button type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">' +
-                                                '<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">' +
-                                                    '<path fill="white" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z"/>' +
-                                                '</svg>' +
-                                            '</button>' +
-                                        '</form>' +
-                                        '<button type="button" onclick="window.location.href=\'' + route('membre.edit', { id: membre.id }) + '\'" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">' +
-                                            '<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">' +
-                                                '<g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">' +
-                                                    '<path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621"/>' +
-                                                    '<path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3"/>' +
-                                                '</g>' +
-                                            '</svg>' +
-                                        '</button>' +
-                                        '@if(auth()->user()->role == "AdminGroupe")' +
-                                        '<a href="' + route('paiements.create', { membreId: membre.id }) + '" type="button" class="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 me-2 mb-2">' +
-                                            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 14 14">' +
-                                                '<path fill="white" fill-rule="evenodd" d="M1.5 0A1.5 1.5 0 0 0 0 1.5v6A1.5 1.5 0 0 0 1.5 9h11A1.5 1.5 0 0 0 14 7.5v-6A1.5 1.5 0 0 0 12.5 0zm6.125 1.454a.625.625 0 1 0-1.25 0v.4a1.532 1.532 0 0 0-.15 3.018l1.197.261a.39.39 0 0 1-.084.773h-.676a.39.39 0 0 1-.369-.26a.625.625 0 0 0-1.178.416c.194.55.673.965 1.26 1.069v.415a.625.625 0 1 0 1.25 0V7.13a1.641 1.641 0 0 0 .064-3.219L6.492 3.65a.281.281 0 0 1 .06-.556h.786a.388.388 0 0 1 .369.26a.625.625 0 1 0 1.178-.416a1.64 1.64 0 0 0-1.26-1.069zM2.75 3.75a.75.75 0 1 1 0 1.5a.75.75 0 0 1 0-1.5m8.5 0a.75.75 0 1 1 0 1.5a.75.75 0 0 1 0-1.5M4.5 9.875c.345 0 .625.28.625.625v2a.625.625 0 1 1-1.25 0v-2c0-.345.28-.625.625-.625m5.625.625a.625.625 0 1 0-1.25 0v2a.625.625 0 1 0 1.25 0zm-2.5.75a.625.625 0 1 0-1.25 0v2a.625.625 0 1 0 1.25 0z" clip-rule="evenodd"/>' +
-                                            '</svg>' +
-                                        '</a>' +
-                                        '@endif' +
-                                    '</div>' +
-                                '</td>' +
-                            '</tr>';
-                        });
+                        console.error('Une erreur s\'est produite.');
                     }
-                } else {
-                    console.error('Une erreur s\'est produite.');
                 }
+            };
+            // 
+            if(countries){
+                xhr.open('GET', '{{ route('filter') }}?ville=' + countries.value + '&section=' + sections.value + '&groupe=' + groupes.value, true);
+                console.log("heloooooooooooooooooVille"+countries.value);
+            }else if(sections){
+                xhr.open('GET', '{{ route('filter') }}?section=' + sections.value + '&groupe=' + groupes.value, true);
+                console.log("heloooooooooooooooooSection"+sections.value);
+            }else if(groupes){
+                xhr.open('GET', '{{ route('filter') }}?groupe=' + groupes.value, true);
+                console.log("heloooooooooooooooooGroupe"+groupes.value);
             }
+            xhr.send();
         };
 
-        if(ville){
-            xhr.open('GET', '{{ route('search') }}?ville=1' + ville.value + '&section=' + section.value + '&groupe=' + groupe.value, true);
-            console.log("heloooooooooooooooooVille"+ville.value);
-        }else if(section){
-            xhr.open('GET', '{{ route('search') }}?section=' + section.value + '&groupe=' + groupe.value, true);
-            console.log("heloooooooooooooooooSection"+section.value);
+    function performSearch() {
+        var query = searchInput.value.trim();
+        var departementType = '';
+        var departementId = '';
 
-        }else if(groupe){
-            xhr.open('GET', '{{ route('search') }}?groupe=' + groupe.value, true);
-            console.log("heloooooooooooooooooGroupe"+groupe.value);
+        if (countries && countries.value) {
+            departementType = 'ville';
+            departementId = countries.value;
+        } else if (sections && sections.value) {
+            departementType = 'section';
+            departementId = sections.value;
+        } else if (groups && groups.value) {
+            departementType = 'groupe';
+            departementId = groups.value;
         }
-        xhr.send();
-    };
-    var countries = document.getElementById('countries');
-    var sections = document.getElementById('sections');
-    var groups = document.getElementById('groups');
 
-    if (countries) {
-        countries.addEventListener('change', performSearch);
-        sections.addEventListener('change', performSearch);
-        groups.addEventListener('change', performSearch);
+        // Check if departementType and departementId are set
+        if (!departementType || !departementId) {
+            console.error('Type de département ou ID manquant.');
+            return;
+        }
+
+        var url = '{{ route('search') }}';
+        var params = new URLSearchParams();
+
+        if (query.length > 0) {
+            params.append('query', query);
+        }
+        if (departementType && departementId) {
+            params.append('departement_type', departementType);
+            params.append('departement_id', departementId);
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url + '?' + params.toString(), true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                resultsContainer.innerHTML = '';
+                if (response.length === 0) {
+                    resultsContainer.innerHTML = '<p>Aucun résultat trouvé</p>';
+                } else {
+                    response.forEach(function(membre) {
+                        // Assuming you have a function to render each member
+                        renderMembreItem(membre);
+                    });
+                }
+            } else {
+                console.error('Une erreur s\'est produite.');
+            }
+        };
+        xhr.send();
     }
-    if (sections) {
-        sections.addEventListener('change', performSearch);
-        groups.addEventListener('change', performSearch);
+    searchInput.addEventListener('input', performSearch);
+
+    if(countries) {
+    countries.addEventListener('change', performFilter);
+    sections.addEventListener('change', performFilter);
+    groups.addEventListener('change', performFilter);
+    }if(sections) {
+        sections.addEventListener('change', performFilter);
+        groups.addEventListener('change', performFilter);
+    }if(groups) {
+        groups.addEventListener('change', performFilter);
     }
-    if (groups) {
-        groups.addEventListener('change', performSearch);
-    }
-});
+
+
+    }); 
+
+
+
 
 
     </script>

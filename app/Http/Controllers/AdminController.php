@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Membre;
-use App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ville;
 use App\Models\Groupe;
@@ -132,11 +131,22 @@ class AdminController extends Controller
     public function membres()
     {
         $user = Auth::user();
+        $ville = [];
         if($user->role=="AdminVille"){
             $membres = Membre::whereHas('groupe.section.ville', function($query) use ($user) {
                 $query->where('responsable', $user->id)
-                      ->orWhere('auteur', $user->id);
+                    ->orWhere('auteur', $user->id);
             })->get();
+
+            $ville = Ville::where('responsable', auth()->id())->first();
+
+            $sections = $ville->sections;
+            foreach ($sections as $section) {
+                foreach ($section->groupes as $groupe) {
+                    $groupes[] = $groupe;
+                }
+            }
+
         }elseif($user->role=="AdminSection") {
             $membres = Membre::whereHas('groupe.section', function($query) use ($user) {
                 $query->where('responsable', $user->id)
@@ -152,22 +162,22 @@ class AdminController extends Controller
 
 
 
-        $villes= Ville::where('auteur', auth()->id())
-                                 ->orwhere('responsable', auth()->id())
-                                 ->get();
+        // $villes= Ville::where('auteur', auth()->id())
+        //                          ->orwhere('responsable', auth()->id())
+        //                          ->get();
 
-        if($user->role=="AdminVille"){
+        // if($user->role=="AdminVille"){
             
-        }
+        // }
 
-        $groupes = Groupe::where('auteur', auth()->id())
-                                  ->orwhere('responsable', auth()->id())
-                                  ->get();
+        // $groupes = Groupe::where('auteur', auth()->id())
+        //                           ->orwhere('responsable', auth()->id())
+        //                           ->get();
      
-        $sections = Section::where('auteur', auth()->id())
-                                   ->orwhere('responsable', auth()->id())
-                                   ->get();
-        return view('association.index', compact('membres', 'villes', 'groupes', 'sections'));
+        // $sections = Section::where('auteur', auth()->id())
+        //                            ->orwhere('responsable', auth()->id())
+        //                            ->get();
+        return view('association.index', compact('membres', 'groupes', 'sections'));
     }
     
 

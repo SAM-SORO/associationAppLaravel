@@ -9,6 +9,7 @@ class Ville extends Model
     protected $fillable = [
         'label',
         // 'responsable',
+        'sections'
     ];
 
     // Relation avec l'utilisateur responsable de la ville
@@ -25,6 +26,7 @@ class Ville extends Model
 
     public function groupes()
     {
-        return $this->hasManyThrough(Ville::class, Section::class, 'id', 'id', 'section_id', 'ville_id');
+        return $this->hasManyThrough(Groupe::class, Section::class, 'ville_id', 'section_id', 'id', 'id');
     }
+    
 }

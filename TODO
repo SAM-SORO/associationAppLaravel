@@ -13,3 +13,32 @@
 
 
 ## ville-section-gropue
+
+    if (countries) {
+        countries.addEventListener('change', performFilter);
+        sections.addEventListener('change', performFilter);
+        groups.addEventListener('change', performFilter);
+    }
+    if (sections) {
+        sections.addEventListener('change', performFilter);
+        groups.addEventListener('change', performFilter);
+    }
+    if (groups) {
+        groups.addEventListener('change', performFilter);
+    }
+
+
+            if(ville){
+            xhr.open('GET', '{{ route('filter') }}?ville=' + ville.value + '&section=' + section.value + '&groupe=' + groupe.value, true);
+            console.log("heloooooooooooooooooVille"+ville.value);
+
+        }else if(section){
+            xhr.open('GET', '{{ route('filter') }}?section=' + section.value + '&groupe=' + groupe.value, true);
+            console.log("heloooooooooooooooooSection"+section.value);
+
+        }else if(groupe){
+            xhr.open('GET', '{{ route('filter') }}?groupe=' + groupe.value, true);
+            console.log("heloooooooooooooooooGroupe"+groupe.value);
+        }
+        
+        xhr.send();

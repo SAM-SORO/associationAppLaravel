@@ -9,6 +9,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\SearchController;
 
 
@@ -82,7 +83,9 @@ Route::prefix('admin/')->group(function(){
     Route::post('responsable/{departement}/create', [AdminController::class, 'storeResponsable'])->name('responsable.store');
 
 
+    Route::get('filtre/', [FilterController::class, 'filter'])->name('filter');
     Route::get('search/', [SearchController::class, 'search'])->name('search');
+
 
 
 
