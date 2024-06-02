@@ -160,23 +160,21 @@ class AdminController extends Controller
         }
         // $membres = Membre::where('groupe_id', $user->groupe_id)->get();
 
+        $villes= Ville::where('auteur', auth()->id())
+                                 ->orwhere('responsable', auth()->id())
+                                 ->get();
 
-
-        // $villes= Ville::where('auteur', auth()->id())
-        //                          ->orwhere('responsable', auth()->id())
-        //                          ->get();
-
-        // if($user->role=="AdminVille"){
+        if($user->role=="AdminVille"){
             
-        // }
+        }
 
-        // $groupes = Groupe::where('auteur', auth()->id())
-        //                           ->orwhere('responsable', auth()->id())
-        //                           ->get();
+        $groupes = Groupe::where('auteur', auth()->id())
+                                  ->orwhere('responsable', auth()->id())
+                                  ->get();
      
-        // $sections = Section::where('auteur', auth()->id())
-        //                            ->orwhere('responsable', auth()->id())
-        //                            ->get();
+        $sections = Section::where('auteur', auth()->id())
+                                   ->orwhere('responsable', auth()->id())
+                                   ->get();
         return view('association.index', compact('membres', 'groupes', 'sections'));
     }
     

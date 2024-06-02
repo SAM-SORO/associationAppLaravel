@@ -9,10 +9,24 @@ use App\Models\Groupe;
 use App\Models\Fonds;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use App\Models\Paiement;
+use App\Models\Membre;
 
 
 class FondsController extends Controller
 {
+
+    // Affiche les détails d'un fonds spécifique
+    public function show($id)
+    {
+        // Récupérer le fonds avec l'auteur et les membres associés
+        $fonds = Fonds::with(['auteur', 'membres'])->findOrFail($id);
+        $nombreMembres = $fonds->membres->count();
+
+        $all_member_paiements = Paiement::where('fonds', $id)->get();
+
+        return view('fonds.show', compact('fonds', 'nombreMembres', "all_member_paiements"));
+    }
     // Affiche la liste des fonds
     public function index()
     {
@@ -157,6 +171,23 @@ class FondsController extends Controller
 
         // Redirection avec un message flash
         return redirect()->route("association.index")->with('success', 'Fonds supprimé avec succès.')->with('success_timeout', now()->addSeconds(1));
+    }
+
+
+    public function showPaiementsMember($fondsId)
+    {
+        $fonds = Fonds::with('auteur')->findOrFail($fondsId);
+        $membres = Membre::where('groupe_id', $fonds->departement_id)->get();
+        
+        // Pour chaque membre, calculez le montant restant à payer
+        foreach ($membres as $membre) {
+            $totalPaiements = Paiement::where('fonds', $fondsId)
+                                    ->where('membre', $membre->id)
+                                    ->sum('montant');
+            $membre->reste = $fonds->montant - $totalPaiements;
+        }
+
+        return view('fonds.liste_membre_pay', compact('fonds', 'membres'));
     }
 
 }

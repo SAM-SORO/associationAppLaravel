@@ -9,15 +9,19 @@ class Fonds extends Model
 {
     use HasFactory;
 
+    // protected $fillable = [
+    //     'label',
+    //     'departement',
+    //     'montant',
+    //     'debut',
+    //     'fin',
+    //     'auteur',
+    //     'desc',
+    //     "id",
+    // ];
+
     protected $fillable = [
-        'label',
-        'departement',
-        'montant',
-        'debut',
-        'fin',
-        'auteur',
-        'desc',
-        "id",
+        'label', 'departement_nom', 'montant', 'departement_id', 'auteur', 'description', 'debut', 'fin'
     ];
 
     // Définir les relations si nécessaire
@@ -29,5 +33,10 @@ class Fonds extends Model
     public function paiements()
     {
         return $this->hasMany(Paiement::class);
+    }
+
+    public function membres()
+    {
+        return $this->hasMany(Membre::class, 'groupe_id', 'departement_id');
     }
 }

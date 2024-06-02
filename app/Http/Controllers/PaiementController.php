@@ -86,11 +86,18 @@ class PaiementController extends Controller
             'fonds' => 'required|exists:fonds,id',
         ]);
 
+
         $fonds = Fonds::findOrFail($request->fonds);
         $paiements = Paiement::where('membre', $membreId)
                             ->where('fonds', $fonds->id)
                             ->get();
 
+        if ($fonds->fin < now()) {
+            return redirect()->route('fonds.index')
+                                ->with('error', 'La date du fonds est dépassée')
+                                ->with('error_timeout', now()->addSeconds(1));
+        }
+        
         $somme = $paiements->sum('montant');
 
         // Vérifiez si le fonds est déjà soldé
@@ -148,7 +155,7 @@ class PaiementController extends Controller
             'all_member_paiements', 'member_reste',
         ));
     }
-
+    
 }
 
 

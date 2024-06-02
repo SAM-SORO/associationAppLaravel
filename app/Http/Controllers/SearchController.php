@@ -21,20 +21,44 @@ class SearchController extends Controller
         $searchTerm = $request->input('query');
 
         // Vérifier les paramètres requis
-        if (!$departementType || !$departementId || !$searchTerm) {
-            return response()->json(['error' => 'Paramètres manquants'], 400);
+        // if (!$departementType || !$departementId || !$searchTerm) {
+        //     return response()->json(['error' => 'Paramètres manquants'], 400);
+        // }
+
+        if (!$departementType || !$departementId) {
+            if(auth()->user()->role()=="AdminVille"){
+                $departementType = "ville";
+                $departementId = auth()->user()->ville()->id;
+            }elseif(auth()->user()->section()=="AdminSection"){
+                $departementType = "section";
+                $departementId = auth()->user()->section()->id;
+            }elseif(auth()->user()->section()=="AdminGroupe"){
+                $departementType = "groupe";
+                $departementId = auth()->user()->groupe()->id;
+            }else{
+                $results = Membre::where(function ($q) use ($searchTerm) {
+                    $q->where('nom', 'LIKE', '%' . $searchTerm . '%')
+                      ->orWhere('prenom', 'LIKE', '%' . $searchTerm . '%');
+                })
+                ->get();
+                return response()->json($results);
+            }
+            
         }
 
         // Déterminer le modèle à utiliser en fonction du type de département sélectionné
         switch ($departementType) {
             case 'ville':
                 $departementModel = Ville::find($departementId);
+                $departementType = "groupe.section.ville";
                 break;
             case 'section':
                 $departementModel = Section::find($departementId);
+                $departementType = "groupe.section";
                 break;
             case 'groupe':
                 $departementModel = Groupe::find($departementId);
+                $departementType = "groupe";
                 break;
             default:
                 return response()->json(['error' => 'Type de département non valide'], 400);

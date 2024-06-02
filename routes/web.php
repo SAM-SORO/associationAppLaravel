@@ -60,12 +60,15 @@ Route::prefix('admin/')->group(function(){
     Route::get('fonds/{id}/edit', [FondsController::class, 'edit'])->name('fonds.edit');
     Route::put('fonds/{id}', [FondsController::class, 'update'])->name('fonds.update');
     Route::delete('fonds/{id}', [FondsController::class, 'destroy'])->name('fonds.destroy');
-
+    Route::get('fonds/{id}', [FondsController::class, 'show'])->name('fonds.show');
+    Route::get('/fonds/{fondsId}/membres', [FondsController::class, 'showPaiementsMember'])
+    ->name('fonds.membres');
     // gestion des payements
     Route::get('paiements', [PaiementController::class, 'index'])->name('paiements.index');
     Route::get('paiements/{membreId}/create', [PaiementController::class, 'create'])->name('paiements.create');
     Route::post('paiements/{membreId}/create', [PaiementController::class, 'store'])->name('paiements.store');
     Route::get('paiements/{membre}/fonds/{fonds}', [PaiementController::class, 'showPaiementsMember'])->name('paiements.showPaiementsMember');
+    
 
     
     // Gestion des statistiques

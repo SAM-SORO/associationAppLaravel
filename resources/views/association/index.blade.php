@@ -380,7 +380,7 @@
         '</tr>';
     };
 
-        var countries = document.getElementById('countries');
+        var countries = document.getElementById('countries') || null;
         var sections = document.getElementById('sections');
         var groupes = document.getElementById('groups');
 
@@ -432,13 +432,20 @@
         } else if (groups && groups.value) {
             departementType = 'groupe';
             departementId = groups.value;
+        }else{
+            if (sections) {
+            departementType = 'ville';
+            }else if(groupes){
+                departementType = 'ville';
+            }
         }
 
         // Check if departementType and departementId are set
-        if (!departementType || !departementId) {
-            console.error('Type de département ou ID manquant.');
-            return;
-        }
+        console.log("------------------", departementType, departementId);
+        // if (!departementType || !departementId) {
+        //     // console.error('Type de département ou ID manquant.');
+        //     return;
+        // }
 
         var url = '{{ route('search') }}';
         var params = new URLSearchParams();
@@ -460,10 +467,7 @@
                 if (response.length === 0) {
                     resultsContainer.innerHTML = '<p>Aucun résultat trouvé</p>';
                 } else {
-                    response.forEach(function(membre) {
-                        // Assuming you have a function to render each member
-                        renderMembreItem(membre);
-                    });
+                    response.forEach(membreItem);
                 }
             } else {
                 console.error('Une erreur s\'est produite.');
@@ -483,13 +487,7 @@
     }if(groups) {
         groups.addEventListener('change', performFilter);
     }
-
-
     }); 
-
-
-
-
 
     </script>
 

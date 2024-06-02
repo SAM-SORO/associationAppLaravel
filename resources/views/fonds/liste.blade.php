@@ -16,7 +16,11 @@
         <tbody>
             @foreach($fonds as $fond)
                 <tr>
-                    <td class="border px-4 py-2">{{ $fond->label }}</td>
+                    <td class="border px-4 py-2">
+                        <a href="{{ route('fonds.show', $fond->id) }}" class="text-blue-500 hover:underline">
+                            {{ $fond->label }}
+                        </a>
+                    </td>
                     <td class="border px-4 py-2">{{ $fond->montant }}</td>
                     <td class="border px-4 py-2">{{ $fond->debut }}</td>
                     <td class="border px-4 py-2">{{ $fond->fin }}</td>
